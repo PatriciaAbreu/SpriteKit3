@@ -1,93 +1,20 @@
 //
-//  GameScene.swift
+//  GameScene2.swift
 //  Teste1_SpriteKit
 //
-//  Created by Patricia de Abreu on 04/05/15.
+//  Created by Patricia de Abreu on 18/05/15.
 //  Copyright (c) 2015 Patricia de Abreu. All rights reserved.
 //
 
 import SpriteKit
 import AVFoundation
 
-var backgroundMusicPlayer: AVAudioPlayer!
-
-func playBackgroundMusic(filename: String) {
-    let url = NSBundle.mainBundle().URLForResource(
-        filename, withExtension: nil)
-    if (url == nil) {
-        println("Could not find file: \(filename)")
-        return
-    }
-    
-    var error: NSError? = nil
-    backgroundMusicPlayer =
-        AVAudioPlayer(contentsOfURL: url, error: &error)
-    if backgroundMusicPlayer == nil {
-        println("Could not create audio player: \(error!)")
-        return
-    }
-    
-    backgroundMusicPlayer.numberOfLoops = -1
-    backgroundMusicPlayer.prepareToPlay()
-    backgroundMusicPlayer.play()
-}
-
-func + (left: CGPoint, right: CGPoint) -> CGPoint {
-    return CGPoint(x: left.x + right.x, y: left.y + right.y)
-}
-
-func - (left: CGPoint, right: CGPoint) -> CGPoint {
-    return CGPoint(x: left.x - right.x, y: left.y - right.y)
-}
-
-func * (point: CGPoint, scalar: CGFloat) -> CGPoint {
-    return CGPoint(x: point.x * scalar, y: point.y * scalar)
-}
-
-func / (point: CGPoint, scalar: CGFloat) -> CGPoint {
-    return CGPoint(x: point.x / scalar, y: point.y / scalar)
-}
-
-#if !(arch(x86_64) || arch(arm64))
-    func sqrt(a: CGFloat) -> CGFloat {
-    return CGFloat(sqrtf(Float(a)))
-    }
-#endif
-
-extension CGPoint {
-    func length() -> CGFloat {
-        return sqrt(x*x + y*y)
-    }
-    
-    func normalized() -> CGPoint {
-        return self / length()
-    }
-}
-
-struct PhysicsCategory {
-    static let None         : UInt32 = 0
-    static let All          : UInt32 = UInt32.max
-    static let SuperDente   : UInt32 = 0b10       // 2
-    static let Dinheiro     : UInt32 = 0b11    //3
-    static let DentePodre   : UInt32 = 0b110   //4
-    static let Moeda        : UInt32 = 0b1      // 1
-}
-
-func random(lo: Int, hi : Int) -> Int {
-    return lo + Int(arc4random_uniform(UInt32(hi - lo + 1)))
-}
-
-
-//let actualDinheiroDuration = random(min: CGFloat(2.0), max: CGFloat(4.0))
-
-/////////////////////////////////
-
 //implementar o delegate
-class GameScene: SKScene, SKPhysicsContactDelegate {
+class GameScene2: SKScene, SKPhysicsContactDelegate {
     
     //verifica se a scene existe
     var existe:Bool = false
-    
+
     //respostas
     var num1:Int = 0
     var num2:Int = 0
@@ -114,13 +41,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let labelScore = SKLabelNode(fontNamed: "score")
     
     var posicao: Int = 0
-    
+    var cont: Int = 0
     override func didMoveToView(view: SKView) {
         println("didMoveToView - Inicio")
         
         if !existe{
             montarScene()
-            println("didMoveToView - Nova tela criada")
+            cont++
+            println("didMoveToView - Nova tela criada \(cont)")
         }
         
         // random para escolher operação
@@ -131,7 +59,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var num1 = obterNumeros()
         var num2 = obterNumeros()
         var resposta: Int = 0
-
+        
         
         // +
         if operacao == 0 {
@@ -265,7 +193,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if posicao == 0 {
             if superDente1.containsPoint(touchLocation) {
-//                dente.position = CGPoint(x: size.width * 0.8, y: size.width * 0.1)
+//                dentePodre.position = CGPoint(x: size.width * 0.8, y: size.width * 0.1)
                 
                 var labelWin = SKLabelNode(fontNamed: "Win")
                 var labelWinCarregando = SKLabelNode(fontNamed: "Carregando")
@@ -286,20 +214,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 addChild(labelWinCarregando)
                 
                 
-                //                moeda.position = superDente1.position
-                //                moeda.xScale = 1
-                //                moeda.yScale = 1
-                //                animarMoeda(moeda, imagens: imagensMoedaGirando)
-                //
-                //                let actionMovie = SKAction.moveTo(dentePodre.position, duration: 0.5)
-                //                moeda.runAction(SKAction.sequence([actionMovie]))
-                //                addChild(moeda)
-                //
-                //                moeda.physicsBody = SKPhysicsBody(circleOfRadius: moeda.size.width/2)
-                //                moeda.physicsBody?.dynamic = true
-                //                moeda.physicsBody?.categoryBitMask = PhysicsCategory.Moeda
-                //                moeda.physicsBody?.contactTestBitMask = PhysicsCategory.DentePodre
-                //                moeda.physicsBody?.usesPreciseCollisionDetection = true
+//                moeda.position = superDente1.position
+//                moeda.xScale = 1
+//                moeda.yScale = 1
+//                animarMoeda(moeda, imagens: imagensMoedaGirando)
+//                
+//                let actionMovie = SKAction.moveTo(dentePodre.position, duration: 0.5)
+//                moeda.runAction(SKAction.sequence([actionMovie]))
+//                addChild(moeda)
+//                
+//                moeda.physicsBody = SKPhysicsBody(circleOfRadius: moeda.size.width/2)
+//                moeda.physicsBody?.dynamic = true
+//                moeda.physicsBody?.categoryBitMask = PhysicsCategory.Moeda
+//                moeda.physicsBody?.contactTestBitMask = PhysicsCategory.DentePodre
+//                moeda.physicsBody?.usesPreciseCollisionDetection = true
             }else if superDente2.containsPoint(touchLocation) {
                 
                 var labelWin = SKLabelNode(fontNamed: "Win")
@@ -373,7 +301,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 superDente1.removeFromParent()
                 addChild(dente)
             }else if superDente2.containsPoint(touchLocation) {
-                //                dentePodre.position = CGPoint(x: size.width * 0.2, y: size.width * 0.1)
+//                dentePodre.position = CGPoint(x: size.width * 0.2, y: size.width * 0.1)
                 
                 var labelWin = SKLabelNode(fontNamed: "Win")
                 var labelWinCarregando = SKLabelNode(fontNamed: "Carregando")
@@ -393,20 +321,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 addChild(labelWin)
                 addChild(labelWinCarregando)
                 
-                //                moeda.position = superDente2.position
-                //                moeda.xScale = 1
-                //                moeda.yScale = 1
-                //                animarMoeda(moeda, imagens: imagensMoedaGirando)
-                //
-                //                let actionMovie = SKAction.moveTo(dentePodre.position, duration: 0.5)
-                //                moeda.runAction(SKAction.sequence([actionMovie]))
-                //                addChild(moeda)
-                //
-                //                moeda.physicsBody = SKPhysicsBody(circleOfRadius: moeda.size.width/2)
-                //                moeda.physicsBody?.dynamic = true
-                //                moeda.physicsBody?.categoryBitMask = PhysicsCategory.Moeda
-                //                moeda.physicsBody?.contactTestBitMask = PhysicsCategory.DentePodre
-                //                moeda.physicsBody?.usesPreciseCollisionDetection = true
+//                moeda.position = superDente2.position
+//                moeda.xScale = 1
+//                moeda.yScale = 1
+//                animarMoeda(moeda, imagens: imagensMoedaGirando)
+//                
+//                let actionMovie = SKAction.moveTo(dentePodre.position, duration: 0.5)
+//                moeda.runAction(SKAction.sequence([actionMovie]))
+//                addChild(moeda)
+//                
+//                moeda.physicsBody = SKPhysicsBody(circleOfRadius: moeda.size.width/2)
+//                moeda.physicsBody?.dynamic = true
+//                moeda.physicsBody?.categoryBitMask = PhysicsCategory.Moeda
+//                moeda.physicsBody?.contactTestBitMask = PhysicsCategory.DentePodre
+//                moeda.physicsBody?.usesPreciseCollisionDetection = true
             }else if superDente3.containsPoint(touchLocation) {
                 
                 
@@ -438,7 +366,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 var labelWin = SKLabelNode(fontNamed: "Win")
                 var labelWinCarregando = SKLabelNode(fontNamed: "Carregando")
-                
+            
                 labelWin.position = CGPoint(x: 500, y: 300)
                 labelWinCarregando.position = CGPoint(x: 500, y: 700)
                 
@@ -482,7 +410,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 superDente2.removeFromParent()
                 addChild(dente)
             }else if posicao == 3 {
-                //                dentePodre.position = CGPoint(x: size.width * 0.5, y: size.width * 0.1)
+//                dentePodre.position = CGPoint(x: size.width * 0.5, y: size.width * 0.1)
                 
                 var labelWin = SKLabelNode(fontNamed: "Win")
                 var labelWinCarregando = SKLabelNode(fontNamed: "Carregando")
@@ -502,39 +430,32 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 addChild(labelWin)
                 addChild(labelWinCarregando)
                 
-                //                moeda.position = superDente3.position
-                //                moeda.xScale = 1
-                //                moeda.yScale = 1
-                //                animarMoeda(moeda, imagens: imagensMoedaGirando)
-                //
-                //                let actionMovie = SKAction.moveTo(dentePodre.position, duration: 0.5)
-                //                moeda.runAction(SKAction.sequence([actionMovie]))
-                //                addChild(moeda)
-                //
-                //                moeda.physicsBody = SKPhysicsBody(circleOfRadius: moeda.size.width/2)
-                //                moeda.physicsBody?.dynamic = true
-                //                moeda.physicsBody?.categoryBitMask = PhysicsCategory.Moeda
-                //                moeda.physicsBody?.contactTestBitMask = PhysicsCategory.DentePodre
-                //                moeda.physicsBody?.usesPreciseCollisionDetection = true
+//                moeda.position = superDente3.position
+//                moeda.xScale = 1
+//                moeda.yScale = 1
+//                animarMoeda(moeda, imagens: imagensMoedaGirando)
+//                
+//                let actionMovie = SKAction.moveTo(dentePodre.position, duration: 0.5)
+//                moeda.runAction(SKAction.sequence([actionMovie]))
+//                addChild(moeda)
+//                
+//                moeda.physicsBody = SKPhysicsBody(circleOfRadius: moeda.size.width/2)
+//                moeda.physicsBody?.dynamic = true
+//                moeda.physicsBody?.categoryBitMask = PhysicsCategory.Moeda
+//                moeda.physicsBody?.contactTestBitMask = PhysicsCategory.DentePodre
+//                moeda.physicsBody?.usesPreciseCollisionDetection = true
             }
         }
         
-        //acao de quando o jogo acaba
-        
-        //        let reveal = SKTransition.flipHorizontalWithDuration(0.5)
-        //        let nextScene = GameScene2(size: self.size)
-        //        self.view?.presentScene(nextScene, transition: reveal)
-        //
-        
+ 
     }
     
     override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
         //acao de quando o jogo acaba
         
         let reveal = SKTransition.flipHorizontalWithDuration(0.5)
-        let nextScene = GameScene2(size: self.size)
+        let nextScene = GameScene(size: self.size)
         self.view?.presentScene(nextScene, transition: reveal)
-        
     }
     
     func moedaDidCollideWithDentePodre(moeda:SKSpriteNode, dentePodre:SKSpriteNode) {
@@ -619,7 +540,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func montarScene(){
-        
         background = SKSpriteNode(imageNamed: "background")
         background.name = "background"
         background.size = scene!.size
@@ -632,7 +552,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         labelScore.fontSize = 80
         labelScore.fontColor = SKColor.whiteColor()
         labelScore.position = CGPoint(x: size.width/3, y: 700)
-        //addChild(labelScore)
+//        addChild(labelScore)
         
         //label Text score
         let labelTextScore = SKLabelNode(fontNamed: "score")
@@ -640,7 +560,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         labelTextScore.fontSize = 80
         labelTextScore.fontColor = SKColor.whiteColor()
         labelTextScore.position = CGPoint(x: size.width/6, y: 700)
-        //addChild(labelTextScore)
+//        addChild(labelTextScore)
         
         // musica do app
         playBackgroundMusic("background-music-aac.caf")
