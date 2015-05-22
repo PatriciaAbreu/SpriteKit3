@@ -123,6 +123,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var nivel: Int = 1
     
+    var denteTocado: SKNode!
+    
+    var solSaindo: SKSpriteNode!
+    
     override func didMoveToView(view: SKView) {
         println("didMoveToView - Inicio")
         
@@ -171,7 +175,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
         // Descobrir qual opção foi tocado
-        let denteTocado = self.nodeAtPoint(touchLocation)
+        denteTocado = self.nodeAtPoint(touchLocation)
         
         // Criar e posicionar label que aparece o texto (feedback ao usuário)
         var labelWin = SKLabelNode(fontNamed: "Marker Felt Wide")
@@ -430,15 +434,37 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // seta o delegate
 //        physicsWorld.contactDelegate = self
         
-        represa = SKSpriteNode()
-        represa.color = SKColor.blueColor()
-//        represa.position = CGPointMake(UIScreen.mainScreen().nativeBounds.height / 2, 0)
-        represa.position = CGPointMake(0, UIScreen.mainScreen().bounds.height )
+        represa = SKSpriteNode(imageNamed: "represa1")
+//        represa.color = SKColor.blueColor()
+        represa.position = CGPointMake(650, 100)
+//        represa.position = CGPointMake(0, 0 )
         represa.size = CGSizeMake(UIScreen.mainScreen().bounds.size.width, UIScreen.mainScreen().bounds.size.height)
         addChild(represa)
     }
     
     func novoJogo() {
+        if solSaindo != nil {
+            println("\(solSaindo.name)")
+            if solSaindo.name == "saiu1" {
+                superDente1.position = solSaindo.position
+                solSaindo.removeFromParent()
+                solSaindo = nil
+                superDente1.zPosition = 0
+                addChild(superDente1)
+            }else if solSaindo.name == "saiu2" {
+                superDente2.position = solSaindo.position
+                solSaindo.removeFromParent()
+                solSaindo = nil
+                superDente2.zPosition = 0
+                addChild(superDente2)
+            }else if solSaindo.name == "saiu3" {
+                superDente3.position = solSaindo.position
+                solSaindo.removeFromParent()
+                solSaindo = nil
+                superDente3.zPosition = 0
+                addChild(superDente3)
+            }
+        }
         println("nivel: \(nivel)")
         labelNivel = SKLabelNode(fontNamed: "Marker Felt Wide")
         labelNivel.position = CGPoint(x: 500, y: 300)
@@ -613,7 +639,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             chuva.addChild(gota)
         }
         
-//        chuva.position = nuvemChovendo.position
         addChild(chuva)
         
         let chover: SKAction = SKAction.moveTo(CGPointMake(chuva.position.x, UIScreen.mainScreen().bounds.height * -2), duration: 1.0)
@@ -621,35 +646,41 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             chuva.removeFromParent()
         })
         
-        represa.position.y = represa.position.y + 10
+        if represa.position.y != 200 {
+            represa.position.y = represa.position.y + 10
+        }else{
+            represa.position.y = 100;
+        }
+        
     }
     
     //caso erre a conta essa funçao será chamada
     func sairSol(){
-        var sol: SKSpriteNode = SKSpriteNode(imageNamed: "sol")
-        
-        sol.zPosition = 1
-        let nuvemChovendo: SKSpriteNode!
+         solSaindo = SKSpriteNode(imageNamed: "sol")
         
         switch posicao {
         case 0:
-            nuvemChovendo = superDente1
+            solSaindo.position = superDente1.position
+            solSaindo.name = "saiu1"
             superDente1.removeFromParent()
         case 1:
-            nuvemChovendo = superDente2
+            solSaindo.position = superDente2.position
+            solSaindo.name = "saiu2"
             superDente2.removeFromParent()
         default:
-            nuvemChovendo = superDente3
+            solSaindo.position = superDente3.position
+            solSaindo.name = "saiu3"
             superDente3.removeFromParent()
         }
-        
-        let posicaoX = nuvemChovendo.position.x
-        let posicaoY = nuvemChovendo.position.y
-        
-        sol.position = CGPointMake(CGFloat(posicaoX),CGFloat(posicaoY))
 
-        addChild(sol)
+        let aparecer = SKAction.fadeInWithDuration(0.5)
+        solSaindo.runAction(aparecer)
+        solSaindo.alpha = 0
+        addChild(solSaindo)
         
-//        represa.position.y = represa.position.y - 10
+        if represa.position.y != 100 {
+            represa.position.y = represa.position.y - 10
+        }
+        
     }
 }
