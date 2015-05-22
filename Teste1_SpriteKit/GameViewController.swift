@@ -78,6 +78,7 @@ class GameViewController: UIViewController {
     
     
     func loadBackground(scene: GameScene){
+        
         if background == nil {
             background = SKSpriteNode(imageNamed: "background")
             background.name = "background"

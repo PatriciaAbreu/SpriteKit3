@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6A1067E11B0A618600F26D60 /* GameScene2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1067E01B0A618600F26D60 /* GameScene2.swift */; };
 		6A91A8F01AFBCC6C00542C9F /* moeda.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 6A91A8EF1AFBCC6C00542C9F /* moeda.atlas */; };
 		6ACC42C21AF7F93F008CCD57 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ACC42C11AF7F93F008CCD57 /* AppDelegate.swift */; };
 		6ACC42C61AF7F93F008CCD57 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ACC42C51AF7F93F008CCD57 /* GameScene.swift */; };
@@ -40,7 +39,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		6A1067E01B0A618600F26D60 /* GameScene2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameScene2.swift; path = ../GameScene2.swift; sourceTree = "<group>"; };
 		6A91A8EF1AFBCC6C00542C9F /* moeda.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = moeda.atlas; sourceTree = "<group>"; };
 		6ACC42BC1AF7F93F008CCD57 /* Teste1_SpriteKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Teste1_SpriteKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6ACC42C01AF7F93F008CCD57 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -113,7 +111,6 @@
 				6ACC42C11AF7F93F008CCD57 /* AppDelegate.swift */,
 				6ACC42FF1AF80CC8008CCD57 /* GamerOverScene.swift */,
 				6ACC42C51AF7F93F008CCD57 /* GameScene.swift */,
-				6A1067E01B0A618600F26D60 /* GameScene2.swift */,
 				6ACC42C71AF7F93F008CCD57 /* GameViewController.swift */,
 				6ACC42C91AF7F93F008CCD57 /* Main.storyboard */,
 				6ACC42CC1AF7F93F008CCD57 /* Images.xcassets */,
@@ -284,7 +281,6 @@
 				6ACC42C61AF7F93F008CCD57 /* GameScene.swift in Sources */,
 				6ACC43001AF80CC8008CCD57 /* GamerOverScene.swift in Sources */,
 				6ACC42C81AF7F93F008CCD57 /* GameViewController.swift in Sources */,
-				6A1067E11B0A618600F26D60 /* GameScene2.swift in Sources */,
 				6ACC42C21AF7F93F008CCD57 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
